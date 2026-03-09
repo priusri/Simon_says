@@ -33,3 +33,34 @@ function btnFlash(btn){
     btn.classList.remove("flash")
    },100);
 }
+
+function btnPress(){
+    console.log(this);
+    btnFlash(randbtn);
+    userFlash(btn);
+
+    userColor=btn.getAttribute("id");
+    userSeq.push(userColor);
+    checkAns();
+}
+
+let allBtns= document.querySelectorAll(".btn");
+for( btn of allBtns){
+    btn.addEventListener("click" , btnPress);
+}
+
+function checkAns(){
+    let index= level-1;
+    if(userSeq[idx] == gameSeq[idx]){
+        if(userSeq.length == gameSeq.length){
+            levelUp();
+        }
+        if(userSeq.length == gameSeq.length){
+            levelUp(); 
+        }
+        console.log("same value");
+    }
+    else{
+        h2.innerText=`Game Over! Press any key to start`;
+    }
+}
