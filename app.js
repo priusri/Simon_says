@@ -1,5 +1,5 @@
-let gameseq=[];
-let playerseq=[];
+let gameSeq=[];
+let userSeq=[];
 let started=false;
 let btns=["yellow","red" ,"purple","green"];
 let level=0;
@@ -14,17 +14,18 @@ document.addEventListener("keydown",function(){
 
 });
 function levelUp(){
+    userSeq=[];
     level++;
     h2.innerText=`Level ${level}`;
     //random button choose
     let randIdx=Math.floor(Math.random() * 3);
     let randColor = btns[randIdx];
     let randbtn= document.querySelector(`.${randColor}`);
-    console.log(randIdx);
+    gameSeq.push(randIdx);
      console.log(randColor);
-    console.log(randbtn);
    
-    btnFlash(randbtn);
+   
+    gameFlash(randbtn);
 }
 
 function btnFlash(btn){
@@ -36,12 +37,13 @@ function btnFlash(btn){
 
 function btnPress(){
     console.log(this);
-    btnFlash(randbtn);
+    let btn=this;
     userFlash(btn);
+    
 
     userColor=btn.getAttribute("id");
     userSeq.push(userColor);
-    checkAns();
+    checkAns(userSeq.length-1);
 }
 
 let allBtns= document.querySelectorAll(".btn");
@@ -49,18 +51,20 @@ for( btn of allBtns){
     btn.addEventListener("click" , btnPress);
 }
 
-function checkAns(){
-    let index= level-1;
+function checkAns(idx){
+    let idx= level-1;
     if(userSeq[idx] == gameSeq[idx]){
         if(userSeq.length == gameSeq.length){
-            levelUp();
+            setTimeout(levelUp,1000);
         }
-        if(userSeq.length == gameSeq.length){
-            levelUp(); 
+        else{
+            h2.innerText='Game Over! Press Any Key to start';
+            reset(); 
         }
-        console.log("same value");
-    }
-    else{
-        h2.innerText=`Game Over! Press any key to start`;
-    }
 }
+}
+function reset(){
+    started==false;
+    gameSeq=[];
+    userSeq=[];
+    level=0;
